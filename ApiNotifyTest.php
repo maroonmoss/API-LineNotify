@@ -1,10 +1,31 @@
-Work Where You Want
-We have a remote-first culture. Remote employees get all the equipment we have in our offices, including an ergonomic chair and desk. Teams hold annual in-person meetups, and standard meetings are video chats by default so no one gets left out.
+<?php 
 
+define('LINE_API',"https://notify-api.line.me/api/notify");
+$token = ""; //ใส่Token ที่copy เอาไว้
+$text =" ทดสอบ Line Notify";//ใส่Text ที่ต้องการให้แสดง
 
-Parental Leave
-We offer paid maternity and paternity leave, a $500 meal delivery stipend, and the primary caregiver has the option to come back to work part time for up to 1 year.
-
-
-Learning & Development
-We actively encourage continu
+$res = notify_message($str,$token);
+print_r($res);
+function notify_message($message,$token){
+ $queryData = array('message' => $message);
+ $queryData = http_build_query($queryData,'','&');
+ $headerOptions = array( 
+         'http'=>array(
+            'method'=>'POST',
+            'header'=> "Content-Type: application/x-www-form-urlencoded\r\n"
+                      ."Authorization: Bearer ".$token."\r\n"
+                      ."Content-Length: ".strlen($queryData)."\r\n",
+            'content' => $queryData
+         ),
+		  'ssl'=>array(
+			  'vertify_peer'=>false,
+			  'vertify_peer_name'=>false,
+         ),
+	
+ );
+ $context = stream_context_create($headerOptions);
+ $result = file_get_contents(LINE_API,FALSE,$context);
+ $res = json_decode($result);
+ return $res;
+}
+?>
