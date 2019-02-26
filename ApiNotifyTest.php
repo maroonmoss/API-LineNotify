@@ -4,7 +4,7 @@ define('LINE_API',"https://notify-api.line.me/api/notify");
 $token = ""; //ใส่Token ที่copy เอาไว้
 $text =" ทดสอบ Line Notify";//ใส่Text ที่ต้องการให้แสดง
 
-$res = notify_message($str,$token);
+$res = notify_message($text,$token);
 print_r($res);
 function notify_message($message,$token){
  $queryData = array('message' => $message);
